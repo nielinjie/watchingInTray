@@ -1,6 +1,7 @@
 package com.hykj.watching
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.context.ConfigurableApplicationContext
@@ -25,24 +26,25 @@ class WatchingApplication {
 
     @Bean
     fun frame(
-        context: ConfigurableApplicationContext, providers: List<EntryItemProvider>
+        context: ConfigurableApplicationContext, providers: List<EntryItemProvider>,
+        @Value("\${trying.hello}")  trying:String
     ): Frame {
-        return Frame(context, providers, "Watching")
+        return Frame(context, providers, "Watching",trying)
     }
-
-    @Bean
-    fun taskbarPoint(
-        providers: List<EntryItemProvider>,
-        context: ConfigurableApplicationContext,
-        @Autowired(required = false)
-        frame: Frame?
-    ): TaskbarComponent {
-        return TaskbarComponent(
-            providers,
-            context, "classpath:/printer.png", frame
-
-        )
-    }
+//
+//    @Bean
+//    fun taskbarPoint(
+//        providers: List<EntryItemProvider>,
+//        context: ConfigurableApplicationContext,
+//        @Autowired(required = false)
+//        frame: Frame?
+//    ): TaskbarComponent {
+//        return TaskbarComponent(
+//            providers,
+//            context, "classpath:/printer.png", frame
+//
+//        )
+//    }
 }
 
 fun main(args: Array<String>) {

@@ -11,7 +11,8 @@ import java.io.File
 class Frame(
     val context: ConfigurableApplicationContext,
     val providers: List<EntryItemProvider>,
-    val frameTitle:String
+    val frameTitle:String,
+    val trying:String
 ) {
     val frame = java.awt.Frame()
     @PostConstruct
@@ -33,6 +34,10 @@ class Frame(
                 File(".").absolutePath.let { path ->
                     it.text = "CWD(File(\".\").absolutePath) - $path"
                 }
+            })
+
+            add(Label().also {
+                it.text = trying
             })
 
             // Add a window listener to handle window closing event

@@ -43,14 +43,24 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+//task to clean dir
+tasks.register("cleanDist") {
+    doLast {
+        file("$buildDir/dist").deleteRecursively()
+    }
+}
+
+
 tasks.jpackage {
-    dependsOn("bootJar" )
+    dependsOn("bootJar","cleanDist" )
 
     input  = "$buildDir/libs"
     destination = "$buildDir/dist"
 
     type = ImageType.APP_IMAGE
     appVersion = "1.0"
+    appName = "watching"
+    appContent = listOf("./config")
     mainJar = tasks.bootJar.get().archiveFileName.get()
 
 

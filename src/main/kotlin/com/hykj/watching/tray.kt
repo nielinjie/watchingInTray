@@ -7,15 +7,16 @@ import java.awt.*
 import java.util.*
 
 
-class MyTrayIcon(
-    val providers: List<PopupItemProvider>,
+class TrayComponent(
+    val providers: List<EntryItemProvider>,
     val context: ConfigurableApplicationContext,
-    val initState: State = WatchingState(context)
+    initState: State = WatchingState(context)
 
-) : TrayIcon(initState.getImage(), initState.getLabel()) {
+) {
+    val icon = TrayIcon(initState.getImage(), initState.getLabel())
     private var state = initState
     private val popup = PopupMenu()
-    val logger = LoggerFactory.getLogger(MyTrayIcon::class.java)
+    val logger = LoggerFactory.getLogger(TrayComponent::class.java)
     val tray: SystemTray = SystemTray.getSystemTray()
 
     private var timer: Timer? = null
@@ -36,19 +37,19 @@ class MyTrayIcon(
         if (!state.blink()) {
             stopBlinking()
             this.stateImage = state.getImage()
-            this.image = this.stateImage
-            this.toolTip = state.getLabel()
+            this.icon.image = this.stateImage
+            this.icon.toolTip = state.getLabel()
         } else {
             this.stateImage = state.getImage()
-            this.image = this.stateImage
-            this.toolTip = state.getLabel()
+            this.icon.image = this.stateImage
+            this.icon.toolTip = state.getLabel()
             this.secondImage = state.getSecondImage()
             startBlinking(1000)
 
         }
     }
 
-    fun startBlinking(interval: Long) {
+    private fun startBlinking(interval: Long) {
         timer?.cancel() // Cancel any existing timer
         timer = Timer().apply {
             scheduleAtFixedRate(object : TimerTask() {
@@ -56,9 +57,9 @@ class MyTrayIcon(
 
                 override fun run() {
                     if (isIconVisible) {
-                        setImage(secondImage) // Set to transparent or "off" image
+                        icon.setImage(secondImage) // Set to transparent or "off" image
                     } else {
-                        setImage(this@MyTrayIcon.stateImage) // Set to original image
+                        icon.setImage(this@TrayComponent.stateImage) // Set to original image
                     }
                     isIconVisible = !isIconVisible
                 }
@@ -66,7 +67,7 @@ class MyTrayIcon(
         }
     }
 
-    fun stopBlinking() {
+    private fun stopBlinking() {
         timer?.cancel()
         timer?.purge()
     }
@@ -74,41 +75,13 @@ class MyTrayIcon(
     @Throws(AWTException::class)
     private fun setup() {
         logger.info("Setting up TrayIcon")
-
-
-//        this.providers.flatMap { it.getItems() }.sortedBy { it.position.order }.onEach { popup.add(it.menuItem) }
-
-        val grouped = getOrderedGroup(providers.flatMap { it.getItems() })
-        for(group in grouped) {
-            when(group.first.type) {
-                "flat" -> {
-                    for(item in group.second) {
-                        popup.add(item.menuItem)
-                    }
-                    popup.addSeparator()
-                }
-                "nested" -> {
-                    val groupMenu = Menu(group.first.name)
-                    for(item in group.second) {
-                        groupMenu.add(item.menuItem)
-                    }
-                    popup.add(groupMenu)
-                }
-            }
-//            val groupMenu = Menu(group.first)
-//            for(item in group.second) {
-//                groupMenu.add(item.menuItem)
-//            }
-//            popup.add(groupMenu)
-
-        }
-        // popup.addSeparator();
-        popupMenu = popup
-        tray.add(this)
+        setupMenu(popup, providers)
+        icon.popupMenu = popup
+        tray.add(icon)
         context.addApplicationListener {
             if (it is ContextClosedEvent) {
                 logger.info("Context Closed. Removing TrayIcon")
-                tray.remove(this@MyTrayIcon)
+                tray.remove(icon)
             }
 
         }

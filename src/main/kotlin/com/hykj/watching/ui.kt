@@ -1,37 +1,51 @@
 package com.hykj.watching
 
-import org.springframework.core.io.Resource
-import java.awt.Image
-import java.awt.image.BufferedImage
-import javax.imageio.ImageIO
+import java.awt.Button
+import java.awt.Container
+import java.awt.Menu
+import java.awt.MenuItem
 
 
-fun createImage(resource: Resource): Image {
-    val imageURL = resource.url
-    return ImageIO.read(imageURL)
+fun EntryItem.getMenuItem(): MenuItem {
+    return MenuItem(this.label).also {
+        it.addActionListener { this.action() }
+    }
 }
 
-fun overlay(image: Image, upperImage: Image): Image {
-    require(image is BufferedImage)
-    val x = (image.getWidth(null) / 2)
-    val y = (image.getHeight(null) / 2)
-    //copy an image
-    val newImage = deepCopy(image)
-    val g = newImage.graphics
-    g.drawImage(resize(upperImage, x, y), x, y, null)
-    g.dispose()
-    return newImage
+fun EntryItem.getButton(): Button {
+    return Button(this.label).also {
+        it.addActionListener { this.action() }
+    }
 }
 
-fun resize(image: Image, toWidth: Int, toHeight: Int): Image {
-    val resized = image.getScaledInstance(toWidth, toHeight, Image.SCALE_FAST)
-    return resized
+fun setupMenu(popup: Menu, providers: List<EntryItemProvider>) {
+    val grouped = getOrderedGroup(providers.flatMap { it.getItems() })
+    for (group in grouped) {
+        when (group.first.type) {
+            "flat" -> {
+                for (item in group.second) {
+                    popup.add(item.getMenuItem())
+                }
+                popup.addSeparator()
+            }
+
+            "nested" -> {
+                val groupMenu = Menu(group.first.name)
+                for (item in group.second) {
+                    groupMenu.add(item.getMenuItem())
+                }
+                popup.add(groupMenu)
+            }
+        }
+
+    }
 }
 
-
-fun deepCopy(bi: BufferedImage): BufferedImage {
-    val cm = bi.colorModel
-    val isAlphaPremultiplied = cm.isAlphaPremultiplied
-    val raster = bi.copyData(null)
-    return BufferedImage(cm, raster, isAlphaPremultiplied, null)
+fun setupButtons(container: Container, providers: List<EntryItemProvider>) {
+    val grouped = getOrderedGroup(providers.flatMap { it.getItems() })
+    for (group in grouped) {
+        for (item in group.second) {
+            container.add(item.getButton())
+        }
+    }
 }

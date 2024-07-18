@@ -1,46 +1,11 @@
 package com.hykj.watching
 
-import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
-import org.springframework.stereotype.Component
-import java.util.*
 
-
-@Component
-class User(
-    @Autowired val trayIcon: MyTrayIcon,
-    @Autowired val context: ConfigurableApplicationContext
-) {
-    var timer: Timer? = null
-    val logger = org.slf4j.LoggerFactory.getLogger(User::class.java)
-
-    @PostConstruct
-    fun init() {
-        this.timer = Timer().also {
-            it.schedule(object : TimerTask() {
-                override fun run() {
-                    trayIcon.setState(
-                        BlinkingOverlayState(
-                            WatchingState(context),
-                            context.getResource("classpath:/printer.png"), " - printing"
-                        )
-                    )
-                    this@User.stop()
-                }
-            }, 1000)
-        }
-    }
-
-    fun stop() {
-        logger.info("stopping")
-        this@User.timer?.cancel()
-        this@User.timer?.purge()
-    }
-}
 
 @SpringBootApplication(
     scanBasePackages = ["com.hykj.watching"],
@@ -50,13 +15,33 @@ class WatchingApplication {
 
     @Bean
     fun trayIcon(
-        providers: List<PopupItemProvider>,
+        providers: List<EntryItemProvider>,
         context: ConfigurableApplicationContext,
-    ): MyTrayIcon {
-        return MyTrayIcon(
-            providers, context,
+    ): TrayComponent {
+        return TrayComponent(
+            providers, context
+        )
+    }
 
-            )
+    @Bean
+    fun frame(
+        context: ConfigurableApplicationContext, providers: List<EntryItemProvider>
+    ): Frame {
+        return Frame(context, providers, "Watching")
+    }
+
+    @Bean
+    fun taskbarPoint(
+        providers: List<EntryItemProvider>,
+        context: ConfigurableApplicationContext,
+        @Autowired(required = false)
+        frame: Frame?
+    ): TaskbarComponent {
+        return TaskbarComponent(
+            providers,
+            context, "classpath:/printer.png", frame
+
+        )
     }
 }
 

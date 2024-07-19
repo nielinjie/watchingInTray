@@ -1,5 +1,9 @@
-package com.hykj.watching
+package xyz.nietongxue.watching
 
+import io.ktor.client.*
+import io.ktor.client.engine.java.*
+import io.ktor.client.request.*
+import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,6 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.stereotype.Component
 import java.awt.Desktop
 import java.io.File
+import java.net.URI
 import kotlin.system.exitProcess
 
 fun getOrderedGroup(entryItems: List<EntryItem>): List<Pair<Group, List<EntryItem>>> {
@@ -33,10 +38,32 @@ interface EntryItemProvider {
 }
 
 @Component
+class RestartItems(
+    @Autowired val context: ConfigurableApplicationContext
+) : EntryItemProvider {
+    val logger: Logger = LoggerFactory.getLogger(RestartItems::class.java)
+    val port: String = context.environment.getProperty("server.port") ?: "8080"
+
+    override fun getItems(): List<EntryItem> {
+        val restartItem = EntryItem("Restart", {
+            logger.info("Restarting context")
+            val url = "http://localhost:$port"
+            val client = HttpClient(Java)
+            runBlocking {
+                client.post("$url/actuator/restart")
+            }
+        }, Position(999, Group("Restart")))
+
+        return listOf(restartItem)
+    }
+}
+
+@Component
 class ExitItems(
     @Autowired val context: ConfigurableApplicationContext
 ) : EntryItemProvider {
     val logger: Logger = LoggerFactory.getLogger(ExitItems::class.java)
+
     override fun getItems(): List<EntryItem> {
         val exitItem = EntryItem("Exit", {
             logger.info("Exiting context")
@@ -83,12 +110,13 @@ class BrowserOpenItems(
         val openBrowser = EntryItem("Open Browser - $url", {
             logger.info("Opening Browser")
             val desktop = Desktop.getDesktop()
-            desktop.browse(java.net.URI(url))
+            desktop.browse(URI(url))
         }, Position(1))
 
         return listOf(openBrowser)
     }
 }
+
 
 @Component
 class LogViewerOpenItems(
@@ -101,7 +129,7 @@ class LogViewerOpenItems(
         val openLogViewer = EntryItem("Open Log Viewer - $url", {
             logger.info("Opening Log Viewer")
             val desktop = Desktop.getDesktop()
-            desktop.browse(java.net.URI(url))
+            desktop.browse(URI(url))
         }, Position(101, Group("Logging", "nested")))
 
         return listOf(

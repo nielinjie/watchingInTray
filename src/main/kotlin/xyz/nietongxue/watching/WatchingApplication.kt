@@ -1,7 +1,6 @@
-package com.hykj.watching
+package xyz.nietongxue.watching
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.context.ConfigurableApplicationContext
@@ -9,7 +8,7 @@ import org.springframework.context.annotation.Bean
 
 
 @SpringBootApplication(
-    scanBasePackages = ["com.hykj.watching"],
+    scanBasePackages = ["xyz.nietongxue.watching"],
     scanBasePackageClasses = [com.logviewer.springboot.LogViewerSpringBootConfig::class]
 )
 class WatchingApplication {
@@ -27,9 +26,8 @@ class WatchingApplication {
     @Bean
     fun frame(
         context: ConfigurableApplicationContext, providers: List<EntryItemProvider>,
-        @Value("\${trying.hello}")  trying:String
     ): Frame {
-        return Frame(context, providers, "Watching",trying)
+        return Frame(context, providers, "Watching", initSize = 400 to 200)
     }
 
     @Bean

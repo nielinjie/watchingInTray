@@ -1,9 +1,10 @@
-package com.hykj.watching
+package xyz.nietongxue.watching
 
 import java.awt.Button
 import java.awt.Container
 import java.awt.Menu
 import java.awt.MenuItem
+import javax.swing.JButton
 
 
 fun EntryItem.getMenuItem(): MenuItem {
@@ -12,8 +13,8 @@ fun EntryItem.getMenuItem(): MenuItem {
     }
 }
 
-fun EntryItem.getButton(): Button {
-    return Button(this.label).also {
+fun EntryItem.getButton(): JButton {
+    return JButton(this.label).also {
         it.addActionListener { this.action() }
     }
 }

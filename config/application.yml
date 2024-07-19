@@ -1,2 +1,7 @@
 trying:
   hello: world
+watching:
+  debug: true
+
+
+

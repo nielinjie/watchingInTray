@@ -1,4 +1,4 @@
-package com.hykj.watching
+package xyz.nietongxue.watching
 
 import org.slf4j.LoggerFactory
 import org.springframework.context.ConfigurableApplicationContext

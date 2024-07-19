@@ -1,4 +1,4 @@
-package com.hykj.watching
+package xyz.nietongxue.watching
 
 import org.springframework.core.io.Resource
 import org.springframework.core.io.ResourceLoader

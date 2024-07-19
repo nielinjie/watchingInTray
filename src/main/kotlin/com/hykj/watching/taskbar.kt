@@ -16,10 +16,15 @@ class TaskbarComponent(
     fun init() {
         val taskbar = Taskbar.getTaskbar()
         val image = createImage(context.getResource(imagePath))
-        taskbar.iconImage = image
-        taskbar.menu = PopupMenu().also { popup ->
-            setupMenu(popup, providers)
+        if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+            taskbar.iconImage = image
         }
+        if (taskbar.isSupported(Taskbar.Feature.MENU)) {
+            taskbar.menu = PopupMenu().also { popup ->
+                setupMenu(popup, providers)
+            }
+        }
+
     }
 }
 

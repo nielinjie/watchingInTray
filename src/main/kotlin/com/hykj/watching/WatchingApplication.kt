@@ -31,20 +31,20 @@ class WatchingApplication {
     ): Frame {
         return Frame(context, providers, "Watching",trying)
     }
-//
-//    @Bean
-//    fun taskbarPoint(
-//        providers: List<EntryItemProvider>,
-//        context: ConfigurableApplicationContext,
-//        @Autowired(required = false)
-//        frame: Frame?
-//    ): TaskbarComponent {
-//        return TaskbarComponent(
-//            providers,
-//            context, "classpath:/printer.png", frame
-//
-//        )
-//    }
+
+    @Bean
+    fun taskbarPoint(
+        providers: List<EntryItemProvider>,
+        context: ConfigurableApplicationContext,
+        @Autowired(required = false)
+        frame: Frame?
+    ): TaskbarComponent {
+        return TaskbarComponent(
+            providers,
+            context, "classpath:/printer.png", frame
+
+        )
+    }
 }
 
 fun main(args: Array<String>) {

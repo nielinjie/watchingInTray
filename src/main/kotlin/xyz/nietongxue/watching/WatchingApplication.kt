@@ -27,7 +27,7 @@ class WatchingApplication {
     fun frame(
         context: ConfigurableApplicationContext, providers: List<EntryItemProvider>,
     ): Frame {
-        return Frame(context, providers, "Watching", initSize = 400 to 200)
+        return Frame(context, providers, "Watching", initSize = 600 to 400)
     }
 
     @Bean

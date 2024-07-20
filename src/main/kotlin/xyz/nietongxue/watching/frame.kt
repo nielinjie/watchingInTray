@@ -41,10 +41,7 @@ class Frame(
             }
 
             // Add a button to the frame
-            JPanel().also {
-                setupButtons(it, providers)
-                add(it)
-            }
+            setupButtons(this, providers)
             context.environment.getProperty("watching.debug")?.also {
                 JPanel().also { jp ->
 

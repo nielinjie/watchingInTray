@@ -1,10 +1,10 @@
 package xyz.nietongxue.watching
 
-import java.awt.Button
 import java.awt.Container
 import java.awt.Menu
 import java.awt.MenuItem
 import javax.swing.JButton
+import javax.swing.JPanel
 
 
 fun EntryItem.getMenuItem(): MenuItem {
@@ -45,8 +45,10 @@ fun setupMenu(popup: Menu, providers: List<EntryItemProvider>) {
 fun setupButtons(container: Container, providers: List<EntryItemProvider>) {
     val grouped = getOrderedGroup(providers.flatMap { it.getItems() })
     for (group in grouped) {
+        val jPanel = JPanel()
         for (item in group.second) {
-            container.add(item.getButton())
+            jPanel.add(item.getButton())
         }
+        container.add(jPanel)
     }
 }

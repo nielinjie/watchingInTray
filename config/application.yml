@@ -2,6 +2,20 @@ trying:
   hello: world
 watching:
   debug: true
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+endpoints:
+  shutdown:
+    enabled: true
+  restart:
+    enabled: true
 
 

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.ExitCodeGenerator
 import org.springframework.boot.SpringApplication
+import org.springframework.context.ApplicationContext
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.stereotype.Component
 import java.awt.Desktop
@@ -39,7 +40,7 @@ interface EntryItemProvider {
 
 @Component
 class RestartItems(
-    @Autowired val context: ConfigurableApplicationContext
+     val context: ApplicationContext
 ) : EntryItemProvider {
     val logger: Logger = LoggerFactory.getLogger(RestartItems::class.java)
     val port: String = context.environment.getProperty("server.port") ?: "8080"
@@ -60,7 +61,7 @@ class RestartItems(
 
 @Component
 class ExitItems(
-    @Autowired val context: ConfigurableApplicationContext
+     val context: ApplicationContext
 ) : EntryItemProvider {
     val logger: Logger = LoggerFactory.getLogger(ExitItems::class.java)
 
@@ -75,9 +76,8 @@ class ExitItems(
     }
 }
 
-@Component
 class LoggingFileOpenItems(
-    @Autowired val context: ConfigurableApplicationContext
+     val context: ApplicationContext
 ) : EntryItemProvider {
     val logger: Logger = LoggerFactory.getLogger(LoggingFileOpenItems::class.java)
     override fun getItems(): List<EntryItem> {
@@ -99,9 +99,8 @@ class LoggingFileOpenItems(
     }
 }
 
-@Component
 class BrowserOpenItems(
-    @Autowired val context: ConfigurableApplicationContext
+     val context: ApplicationContext
 ) : EntryItemProvider {
     val logger: Logger = LoggerFactory.getLogger(BrowserOpenItems::class.java)
     override fun getItems(): List<EntryItem> {
@@ -118,9 +117,8 @@ class BrowserOpenItems(
 }
 
 
-@Component
 class LogViewerOpenItems(
-    @Autowired val context: ConfigurableApplicationContext
+    val context: ApplicationContext
 ) : EntryItemProvider {
     val logger: Logger = LoggerFactory.getLogger(LogViewerOpenItems::class.java)
     override fun getItems(): List<EntryItem> {

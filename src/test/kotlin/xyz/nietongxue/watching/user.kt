@@ -3,15 +3,17 @@ package xyz.nietongxue.watching
 import jakarta.annotation.PostConstruct
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.stereotype.Component
 import java.util.*
 
+/*
+ * TODO，没太搞懂是用来干啥的。可能是个 use case 演示。
+ */
 @Component
 class User(
-    @Autowired val trayIcon: TrayComponent,
-    @Autowired val context: ConfigurableApplicationContext
+     val trayIcon: TrayComponent,
+     val context: ConfigurableApplicationContext
 ) {
     var timer: Timer? = null
     val logger: Logger = LoggerFactory.getLogger(User::class.java)

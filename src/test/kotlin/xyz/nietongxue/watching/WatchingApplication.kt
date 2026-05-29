@@ -23,6 +23,10 @@ class WatchingApplication {
         )
     }
 
+    /*
+    * 在 bean PostConstruct 时显示。
+    * 跟其他部分关系不大。
+     */
     @Bean
     fun frame(
         context: ConfigurableApplicationContext, providers: List<EntryItemProvider>,
@@ -34,14 +38,12 @@ class WatchingApplication {
     fun taskbarPoint(
         providers: List<EntryItemProvider>,
         context: ConfigurableApplicationContext,
-        @Autowired(required = false)
-        frame: Frame?
     ): TaskbarComponent {
         return TaskbarComponent(
             providers,
-            context, "classpath:/printer.png", frame
+            context, "classpath:/printer.png",
 
-        )
+            )
     }
 }
 

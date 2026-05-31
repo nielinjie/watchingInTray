@@ -1,16 +1,11 @@
 package xyz.nietongxue.watching
 
-import io.ktor.client.*
-import io.ktor.client.engine.java.*
-import io.ktor.client.request.*
-import kotlinx.coroutines.runBlocking
+
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.ExitCodeGenerator
 import org.springframework.boot.SpringApplication
 import org.springframework.context.ApplicationContext
-import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.stereotype.Component
 import java.awt.Desktop
 import java.io.File
@@ -38,30 +33,30 @@ interface EntryItemProvider {
     fun getItems(): List<EntryItem>
 }
 
-@Component
-class RestartItems(
-     val context: ApplicationContext
-) : EntryItemProvider {
-    val logger: Logger = LoggerFactory.getLogger(RestartItems::class.java)
-    val port: String = context.environment.getProperty("server.port") ?: "8080"
-
-    override fun getItems(): List<EntryItem> {
-        val restartItem = EntryItem("Restart", {
-            logger.info("Restarting context")
-            val url = "http://localhost:$port"
-            val client = HttpClient(Java)
-            runBlocking {
-                client.post("$url/actuator/restart")
-            }
-        }, Position(999, Group("Restart")))
-
-        return listOf(restartItem)
-    }
-}
+//@Component
+//class RestartItems(
+//     val context: ApplicationContext
+//) : EntryItemProvider {
+//    val logger: Logger = LoggerFactory.getLogger(RestartItems::class.java)
+//    val port: String = context.environment.getProperty("server.port") ?: "8080"
+//
+//    override fun getItems(): List<EntryItem> {
+//        val restartItem = EntryItem("Restart", {
+//            logger.info("Restarting context")
+//            val url = "http://localhost:$port"
+//            val client = HttpClient(Java)
+//            runBlocking {
+//                client.post("$url/actuator/restart")
+//            }
+//        }, Position(999, Group("Restart")))
+//
+//        return listOf(restartItem)
+//    }
+//}
 
 @Component
 class ExitItems(
-     val context: ApplicationContext
+    val context: ApplicationContext
 ) : EntryItemProvider {
     val logger: Logger = LoggerFactory.getLogger(ExitItems::class.java)
 
@@ -77,7 +72,7 @@ class ExitItems(
 }
 
 class LoggingFileOpenItems(
-     val context: ApplicationContext
+    val context: ApplicationContext
 ) : EntryItemProvider {
     val logger: Logger = LoggerFactory.getLogger(LoggingFileOpenItems::class.java)
     override fun getItems(): List<EntryItem> {
@@ -100,7 +95,7 @@ class LoggingFileOpenItems(
 }
 
 class BrowserOpenItems(
-     val context: ApplicationContext
+    val context: ApplicationContext
 ) : EntryItemProvider {
     val logger: Logger = LoggerFactory.getLogger(BrowserOpenItems::class.java)
     override fun getItems(): List<EntryItem> {

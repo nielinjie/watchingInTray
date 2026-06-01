@@ -143,4 +143,11 @@
             </plugin>
         </plugins>
     </build>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>repsy</id>
+            <name>repsy</name>
+            <url>https://repo.repsy.io/mvn/nielinjie/default</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

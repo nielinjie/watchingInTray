@@ -2,6 +2,8 @@ package xyz.nietongxue.watching
 
 import org.springframework.core.io.Resource
 import org.springframework.core.io.ResourceLoader
+import xyz.nietongxue.watching.ui.createImage
+import xyz.nietongxue.watching.ui.overlay
 import java.awt.Image
 
 interface State {

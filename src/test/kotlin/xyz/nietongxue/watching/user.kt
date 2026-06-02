@@ -5,15 +5,16 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.stereotype.Component
+import xyz.nietongxue.watching.ui.TrayComponent
 import java.util.*
 
 /*
- * TODO，没太搞懂是用来干啥的。可能是个 use case 演示。
+ * 是个 use case 演示。如何实现 state？
  */
 @Component
 class User(
-     val trayIcon: TrayComponent,
-     val context: ConfigurableApplicationContext
+    val trayIcon: TrayComponent,
+    val context: ConfigurableApplicationContext
 ) {
     var timer: Timer? = null
     val logger: Logger = LoggerFactory.getLogger(User::class.java)

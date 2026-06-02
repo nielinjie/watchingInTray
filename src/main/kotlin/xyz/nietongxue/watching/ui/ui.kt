@@ -1,5 +1,8 @@
-package xyz.nietongxue.watching
+package xyz.nietongxue.watching.ui
 
+import xyz.nietongxue.watching.EntryItem
+import xyz.nietongxue.watching.EntryItemProvider
+import xyz.nietongxue.watching.getOrderedGroup
 import java.awt.Container
 import java.awt.Menu
 import java.awt.MenuItem

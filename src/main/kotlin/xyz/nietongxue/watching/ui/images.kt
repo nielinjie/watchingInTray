@@ -1,4 +1,4 @@
-package xyz.nietongxue.watching
+package xyz.nietongxue.watching.ui
 
 import org.springframework.core.io.Resource
 import java.awt.Image

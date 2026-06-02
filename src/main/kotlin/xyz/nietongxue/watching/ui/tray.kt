@@ -1,8 +1,11 @@
-package xyz.nietongxue.watching
+package xyz.nietongxue.watching.ui
 
 import org.slf4j.LoggerFactory
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.event.ContextClosedEvent
+import xyz.nietongxue.watching.EntryItemProvider
+import xyz.nietongxue.watching.State
+import xyz.nietongxue.watching.WatchingState
 import java.awt.*
 import java.util.*
 

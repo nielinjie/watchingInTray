@@ -2,6 +2,8 @@ package xyz.nietongxue.watching
 
 import jakarta.annotation.PostConstruct
 import org.springframework.context.ApplicationContext
+import xyz.nietongxue.watching.ui.createImage
+import xyz.nietongxue.watching.ui.setupMenu
 import java.awt.PopupMenu
 import java.awt.Taskbar
 

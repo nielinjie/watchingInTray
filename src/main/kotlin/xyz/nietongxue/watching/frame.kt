@@ -3,6 +3,7 @@ package xyz.nietongxue.watching
 import jakarta.annotation.PostConstruct
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.event.ContextClosedEvent
+import xyz.nietongxue.watching.ui.setupButtons
 import java.awt.FlowLayout
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent

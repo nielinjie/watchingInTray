@@ -13,15 +13,18 @@ import javax.swing.JLabel
 import javax.swing.JPanel
 
 
-class Frame(
+class FrameUI(
     val context: ConfigurableApplicationContext,
     val providers: List<EntryItemProvider>,
     val frameTitle: String,
-    val headLabel: String = frameTitle,
-    val initSize: Pair<Int, Int> = Pair(400, 300)
+    val initSize: Pair<Int, Int> = Pair(400, 300),
+    initState: State
+
 ) {
     val frame = java.awt.Frame()
-    val logger = org.slf4j.LoggerFactory.getLogger(Frame::class.java)
+    val logger = org.slf4j.LoggerFactory.getLogger(FrameUI::class.java)
+    var innerState = initState
+    var headLabel = JLabel()
 
     @PostConstruct
     fun init() {
@@ -32,10 +35,11 @@ class Frame(
             setSize(initSize.first, initSize.second)
             // Set the layout manager
             layout = BoxLayout(this, BoxLayout.Y_AXIS)
+            //TODO headLabel不需要，用来做 state。
             JPanel().also { jp ->
                 jp.layout = FlowLayout()
-                JLabel().also {
-                    it.text = headLabel
+                headLabel.also {
+                    it.text = this@FrameUI.innerState.getLabel()
                     jp.add(it)
                 }
                 add(jp)
@@ -64,7 +68,7 @@ class Frame(
             }
 
 
-            // Add a window listener to handle window closing event
+            // handle window closing event？
             addWindowListener(object : WindowAdapter() {
                 override fun windowClosing(e: WindowEvent?) {
 //                    frame.isVisible = false
@@ -79,5 +83,10 @@ class Frame(
                 frame.dispose()
             }
         }
+    }
+
+    fun setState(state: State) {
+        this.innerState = state
+        headLabel.text = state.getLabel()
     }
 }

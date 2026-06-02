@@ -23,13 +23,6 @@
         <ktor.version>2.3.12</ktor.version>
     </properties>
     <dependencies>
-
-        <dependency>
-            <groupId>com.hykj</groupId>
-            <artifactId>rpa-middle-core</artifactId>
-            <version>${rpa-middle.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>xyz.nietongxue</groupId>
             <artifactId>common2.core</artifactId>

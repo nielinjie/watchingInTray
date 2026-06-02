@@ -6,11 +6,25 @@ import xyz.nietongxue.watching.ui.createImage
 import xyz.nietongxue.watching.ui.overlay
 import java.awt.Image
 
+/**
+ * 可在 frame 和 tray 使用。
+ */
 interface State {
     fun getImage(): Image
     fun getLabel(): String
     fun blink(): Boolean = false
     fun getSecondImage(): Image? = null
+}
+
+
+class SimpleState(val text: String, val imageResourcePath: String, val contextResource: ResourceLoader) : State {
+    override fun getImage(): Image {
+        return createImage(contextResource.getResource(imageResourcePath))
+    }
+
+    override fun getLabel(): String {
+        return text
+    }
 }
 
 class WatchingState(val context: ResourceLoader) : State {

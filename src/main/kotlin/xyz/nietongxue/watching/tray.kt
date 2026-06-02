@@ -1,25 +1,23 @@
-package xyz.nietongxue.watching.ui
+package xyz.nietongxue.watching
 
 import org.slf4j.LoggerFactory
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.event.ContextClosedEvent
-import xyz.nietongxue.watching.EntryItemProvider
-import xyz.nietongxue.watching.State
-import xyz.nietongxue.watching.WatchingState
+import xyz.nietongxue.watching.ui.setupMenu
 import java.awt.*
 import java.util.*
 
 
-class TrayComponent(
+class TrayUI(
     val providers: List<EntryItemProvider>,
     val context: ConfigurableApplicationContext,
-    initState: State = WatchingState(context)
+    initState: State
 
 ) {
     val icon = TrayIcon(initState.getImage(), initState.getLabel())
     private var state = initState
     private val popup = PopupMenu()
-    val logger = LoggerFactory.getLogger(TrayComponent::class.java)
+    val logger = LoggerFactory.getLogger(TrayUI::class.java)
     val tray: SystemTray = SystemTray.getSystemTray()
 
     private var timer: Timer? = null
@@ -62,7 +60,7 @@ class TrayComponent(
                     if (isIconVisible) {
                         icon.setImage(secondImage) // Set to transparent or "off" image
                     } else {
-                        icon.setImage(this@TrayComponent.stateImage) // Set to original image
+                        icon.setImage(this@TrayUI.stateImage) // Set to original image
                     }
                     isIconVisible = !isIconVisible
                 }

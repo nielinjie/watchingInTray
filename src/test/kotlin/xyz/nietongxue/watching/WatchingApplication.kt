@@ -1,15 +1,14 @@
 package xyz.nietongxue.watching
 
+import com.logviewer.springboot.LogViewerSpringBootConfig
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Bean
-import xyz.nietongxue.watching.ui.TrayComponent
 
 
 @SpringBootApplication(
-    scanBasePackages = ["xyz.nietongxue.watching"],
-    scanBasePackageClasses = [com.logviewer.springboot.LogViewerSpringBootConfig::class]
+    scanBasePackages = ["xyz.nietongxue.watching"], scanBasePackageClasses = [LogViewerSpringBootConfig::class]
 )
 class WatchingApplication {
 
@@ -17,9 +16,9 @@ class WatchingApplication {
     fun trayIcon(
         providers: List<EntryItemProvider>,
         context: ConfigurableApplicationContext,
-    ): TrayComponent {
-        return TrayComponent(
-            providers, context
+    ): TrayUI {
+        return TrayUI(
+            providers, context, WatchingState(context)
         )
     }
 
@@ -30,16 +29,18 @@ class WatchingApplication {
     @Bean
     fun frame(
         context: ConfigurableApplicationContext, providers: List<EntryItemProvider>,
-    ): Frame {
-        return Frame(context, providers, "Watching", initSize = 600 to 400)
+    ): FrameUI {
+        return FrameUI(
+            context, providers, "Watching", initSize = 600 to 400, initState = WatchingState(context)
+        )
     }
 
     @Bean
     fun taskbarPoint(
         providers: List<EntryItemProvider>,
         context: ConfigurableApplicationContext,
-    ): TaskbarComponent {
-        return TaskbarComponent(
+    ): TaskbarUI {
+        return TaskbarUI(
             providers,
             context, "classpath:/printer.png",
 

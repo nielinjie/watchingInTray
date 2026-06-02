@@ -5,7 +5,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.stereotype.Component
-import xyz.nietongxue.watching.ui.TrayComponent
 import java.util.*
 
 /*
@@ -13,7 +12,7 @@ import java.util.*
  */
 @Component
 class User(
-    val trayIcon: TrayComponent,
+    val trayIcon: TrayUI,
     val context: ConfigurableApplicationContext
 ) {
     var timer: Timer? = null

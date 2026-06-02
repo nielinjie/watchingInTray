@@ -7,7 +7,7 @@ import xyz.nietongxue.watching.ui.setupMenu
 import java.awt.PopupMenu
 import java.awt.Taskbar
 
-class TaskbarComponent(
+class TaskbarUI(
     val providers: List<EntryItemProvider>,
     val context: ApplicationContext,
     val imagePath: String,

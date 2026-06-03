@@ -33,7 +33,7 @@ class TrayUI(
     }
 
     fun setState(state: State) {
-        logger.info("Setting State to $state")
+        logger.trace("Setting State to $state")
         this.state = state
         if (!state.blink()) {
             stopBlinking()
@@ -75,7 +75,7 @@ class TrayUI(
 
     @Throws(AWTException::class)
     private fun setup() {
-        logger.info("Setting up TrayIcon")
+        logger.debug("Setting up TrayIcon")
         setupMenu(popup, providers)
         icon.popupMenu = popup
         tray.add(icon)

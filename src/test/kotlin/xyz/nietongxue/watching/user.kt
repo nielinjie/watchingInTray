@@ -36,7 +36,7 @@ class User(
     }
 
     fun stop() {
-        logger.info("stopping")
+        logger.debug("stopping")
         this@User.timer?.cancel()
         this@User.timer?.purge()
     }

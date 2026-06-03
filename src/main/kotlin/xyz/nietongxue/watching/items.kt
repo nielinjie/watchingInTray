@@ -62,7 +62,7 @@ class ExitItems(
 
     override fun getItems(): List<EntryItem> {
         val exitItem = EntryItem("Exit", {
-            logger.info("Exiting context")
+            logger.debug("Exiting context")
             val exitCode = SpringApplication.exit(context, ExitCodeGenerator { 0 })
             exitProcess(exitCode)
         }, Position(10000, Group("Exit")))
@@ -79,9 +79,9 @@ class LoggingFileOpenItems(
         val loggerFilePath: String? = context.environment.getProperty("logging.file.path")
         val loggerFileName: String? = context.environment.getProperty("logging.file.name")
         return loggerFilePath?.let { filePath ->
-            logger.info("Logging File Path: $filePath")
+            logger.debug("Logging File Path: $filePath")
             val loggingFile = EntryItem("Logging File", {
-                logger.info("Opening Logging File")
+                logger.debug("Opening Logging File")
                 val desktop = Desktop.getDesktop()
                 val file = File(filePath, loggerFileName ?: "spring.log")
                 if (file.exists()) desktop.open(file)
@@ -102,7 +102,7 @@ class BrowserOpenItems(
         val port: String = context.environment.getProperty("server.port") ?: "8080"
         val url = "http://localhost:$port"
         val openBrowser = EntryItem("Open Browser - $url", {
-            logger.info("Opening Browser")
+            logger.debug("Opening Browser")
             val desktop = Desktop.getDesktop()
             desktop.browse(URI(url))
         }, Position(1))
@@ -120,7 +120,7 @@ class LogViewerOpenItems(
         val port: String = context.environment.getProperty("server.port") ?: "8080"
         val url = "http://localhost:$port/logs"
         val openLogViewer = EntryItem("Open Log Viewer - $url", {
-            logger.info("Opening Log Viewer")
+            logger.debug("Opening Log Viewer")
             val desktop = Desktop.getDesktop()
             desktop.browse(URI(url))
         }, Position(101, Group("Logging", "nested")))
